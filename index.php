@@ -11,12 +11,10 @@ $app->config('debug', true);
 
 $app->get('/', function() {
     
-    $sql = new Hcode\DB\Sql();
+    $page = new Page();
 
-    $results = $sql->select("SELECT * FROM tb_users");
-
-    echo json_encode($results);
-
+    $page->setTpl("index");
+    
 });
 
 $app->run();

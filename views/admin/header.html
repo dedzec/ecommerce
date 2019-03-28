@@ -7,28 +7,28 @@
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
-  <link rel="stylesheet" href="res/admin/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/ecommerce/res/admin/bootstrap/css/bootstrap.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="res/admin/dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="/ecommerce/res/admin/dist/css/AdminLTE.min.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
-  <link rel="stylesheet" href="res/admin/dist/css/skins/_all-skins.min.css">
+  <link rel="stylesheet" href="/ecommerce/res/admin/dist/css/skins/_all-skins.min.css">
   <!-- iCheck -->
-  <link rel="stylesheet" href="res/admin/plugins/iCheck/flat/blue.css">
+  <link rel="stylesheet" href="/ecommerce/res/admin/plugins/iCheck/flat/blue.css">
   <!-- Morris chart -->
-  <link rel="stylesheet" href="res/admin/plugins/morris/morris.css">
+  <link rel="stylesheet" href="/ecommerce/res/admin/plugins/morris/morris.css">
   <!-- jvectormap -->
-  <link rel="stylesheet" href="res/admin/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
+  <link rel="stylesheet" href="/ecommerce/res/admin/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
   <!-- Date Picker -->
-  <link rel="stylesheet" href="res/admin/plugins/datepicker/datepicker3.css">
+  <link rel="stylesheet" href="/ecommerce/res/admin/plugins/datepicker/datepicker3.css">
   <!-- Daterange picker -->
-  <link rel="stylesheet" href="res/admin/plugins/daterangepicker/daterangepicker.css">
+  <link rel="stylesheet" href="/ecommerce/res/admin/plugins/daterangepicker/daterangepicker.css">
   <!-- bootstrap wysihtml5 - text editor -->
-  <link rel="stylesheet" href="res/admin/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+  <link rel="stylesheet" href="/ecommerce/res/admin/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -287,7 +287,7 @@
                   <a href="#" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                  <a href="admin/logout" class="btn btn-default btn-flat">Sign out</a>
                 </div>
               </li>
             </ul>
@@ -349,14 +349,14 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="res/admin/pages/layout/top-nav.html"><i class="fa fa-circle-o"></i> Top Navigation</a></li>
-            <li><a href="res/admin/pages/layout/boxed.html"><i class="fa fa-circle-o"></i> Boxed</a></li>
-            <li><a href="res/admin/pages/layout/fixed.html"><i class="fa fa-circle-o"></i> Fixed</a></li>
-            <li><a href="res/admin/pages/layout/collapsed-sidebar.html"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
+            <li><a href="/ecommerce/res/admin/pages/layout/top-nav.html"><i class="fa fa-circle-o"></i> Top Navigation</a></li>
+            <li><a href="/ecommerce/res/admin/pages/layout/boxed.html"><i class="fa fa-circle-o"></i> Boxed</a></li>
+            <li><a href="/ecommerce/res/admin/pages/layout/fixed.html"><i class="fa fa-circle-o"></i> Fixed</a></li>
+            <li><a href="/ecommerce/res/admin/pages/layout/collapsed-sidebar.html"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
           </ul>
         </li>
         <li>
-          <a href="res/admin/pages/widgets.html">
+          <a href="/ecommerce/res/admin/pages/widgets.html">
             <i class="fa fa-th"></i> <span>Widgets</span>
             <span class="pull-right-container">
               <small class="label pull-right bg-green">new</small>
@@ -372,10 +372,10 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="res/admin/pages/charts/chartjs.html"><i class="fa fa-circle-o"></i> ChartJS</a></li>
-            <li><a href="res/admin/pages/charts/morris.html"><i class="fa fa-circle-o"></i> Morris</a></li>
-            <li><a href="res/admin/pages/charts/flot.html"><i class="fa fa-circle-o"></i> Flot</a></li>
-            <li><a href="res/admin/pages/charts/inline.html"><i class="fa fa-circle-o"></i> Inline charts</a></li>
+            <li><a href="/ecommerce/res/admin/pages/charts/chartjs.html"><i class="fa fa-circle-o"></i> ChartJS</a></li>
+            <li><a href="/ecommerce/res/admin/pages/charts/morris.html"><i class="fa fa-circle-o"></i> Morris</a></li>
+            <li><a href="/ecommerce/res/admin/pages/charts/flot.html"><i class="fa fa-circle-o"></i> Flot</a></li>
+            <li><a href="/ecommerce/res/admin/pages/charts/inline.html"><i class="fa fa-circle-o"></i> Inline charts</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -387,12 +387,12 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="res/admin/pages/UI/general.html"><i class="fa fa-circle-o"></i> General</a></li>
-            <li><a href="res/admin/pages/UI/icons.html"><i class="fa fa-circle-o"></i> Icons</a></li>
-            <li><a href="res/admin/pages/UI/buttons.html"><i class="fa fa-circle-o"></i> Buttons</a></li>
-            <li><a href="res/admin/pages/UI/sliders.html"><i class="fa fa-circle-o"></i> Sliders</a></li>
-            <li><a href="res/admin/pages/UI/timeline.html"><i class="fa fa-circle-o"></i> Timeline</a></li>
-            <li><a href="res/admin/pages/UI/modals.html"><i class="fa fa-circle-o"></i> Modals</a></li>
+            <li><a href="/ecommerce/res/admin/pages/UI/general.html"><i class="fa fa-circle-o"></i> General</a></li>
+            <li><a href="/ecommerce/res/admin/pages/UI/icons.html"><i class="fa fa-circle-o"></i> Icons</a></li>
+            <li><a href="/ecommerce/res/admin/pages/UI/buttons.html"><i class="fa fa-circle-o"></i> Buttons</a></li>
+            <li><a href="/ecommerce/res/admin/pages/UI/sliders.html"><i class="fa fa-circle-o"></i> Sliders</a></li>
+            <li><a href="/ecommerce/res/admin/pages/UI/timeline.html"><i class="fa fa-circle-o"></i> Timeline</a></li>
+            <li><a href="/ecommerce/res/admin/pages/UI/modals.html"><i class="fa fa-circle-o"></i> Modals</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -403,9 +403,9 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="res/admin/pages/forms/general.html"><i class="fa fa-circle-o"></i> General Elements</a></li>
-            <li><a href="res/admin/pages/forms/advanced.html"><i class="fa fa-circle-o"></i> Advanced Elements</a></li>
-            <li><a href="res/admin/pages/forms/editors.html"><i class="fa fa-circle-o"></i> Editors</a></li>
+            <li><a href="/ecommerce/res/admin/pages/forms/general.html"><i class="fa fa-circle-o"></i> General Elements</a></li>
+            <li><a href="/ecommerce/res/admin/pages/forms/advanced.html"><i class="fa fa-circle-o"></i> Advanced Elements</a></li>
+            <li><a href="/ecommerce/res/admin/pages/forms/editors.html"><i class="fa fa-circle-o"></i> Editors</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -416,12 +416,12 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="res/admin/pages/tables/simple.html"><i class="fa fa-circle-o"></i> Simple tables</a></li>
-            <li><a href="res/admin/pages/tables/data.html"><i class="fa fa-circle-o"></i> Data tables</a></li>
+            <li><a href="/ecommerce/res/admin/pages/tables/simple.html"><i class="fa fa-circle-o"></i> Simple tables</a></li>
+            <li><a href="/ecommerce/res/admin/pages/tables/data.html"><i class="fa fa-circle-o"></i> Data tables</a></li>
           </ul>
         </li>
         <li>
-          <a href="res/admin/pages/calendar.html">
+          <a href="/ecommerce/res/admin/pages/calendar.html">
             <i class="fa fa-calendar"></i> <span>Calendar</span>
             <span class="pull-right-container">
               <small class="label pull-right bg-red">3</small>
@@ -430,7 +430,7 @@
           </a>
         </li>
         <li>
-          <a href="res/admin/pages/mailbox/mailbox.html">
+          <a href="/ecommerce/res/admin/pages/mailbox/mailbox.html">
             <i class="fa fa-envelope"></i> <span>Mailbox</span>
             <span class="pull-right-container">
               <small class="label pull-right bg-yellow">12</small>
@@ -447,15 +447,15 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="res/admin/pages/examples/invoice.html"><i class="fa fa-circle-o"></i> Invoice</a></li>
-            <li><a href="res/admin/pages/examples/profile.html"><i class="fa fa-circle-o"></i> Profile</a></li>
-            <li><a href="res/admin/pages/examples/login.html"><i class="fa fa-circle-o"></i> Login</a></li>
-            <li><a href="res/admin/pages/examples/register.html"><i class="fa fa-circle-o"></i> Register</a></li>
-            <li><a href="res/admin/pages/examples/lockscreen.html"><i class="fa fa-circle-o"></i> Lockscreen</a></li>
-            <li><a href="res/admin/pages/examples/404.html"><i class="fa fa-circle-o"></i> 404 Error</a></li>
-            <li><a href="res/admin/pages/examples/500.html"><i class="fa fa-circle-o"></i> 500 Error</a></li>
-            <li><a href="res/admin/pages/examples/blank.html"><i class="fa fa-circle-o"></i> Blank Page</a></li>
-            <li><a href="res/admin/pages/examples/pace.html"><i class="fa fa-circle-o"></i> Pace Page</a></li>
+            <li><a href="/ecommerce/res/admin/pages/examples/invoice.html"><i class="fa fa-circle-o"></i> Invoice</a></li>
+            <li><a href="/ecommerce/res/admin/pages/examples/profile.html"><i class="fa fa-circle-o"></i> Profile</a></li>
+            <li><a href="/ecommerce/res/admin/pages/examples/login.html"><i class="fa fa-circle-o"></i> Login</a></li>
+            <li><a href="/ecommerce/res/admin/pages/examples/register.html"><i class="fa fa-circle-o"></i> Register</a></li>
+            <li><a href="/ecommerce/res/admin/pages/examples/lockscreen.html"><i class="fa fa-circle-o"></i> Lockscreen</a></li>
+            <li><a href="/ecommerce/res/admin/pages/examples/404.html"><i class="fa fa-circle-o"></i> 404 Error</a></li>
+            <li><a href="/ecommerce/res/admin/pages/examples/500.html"><i class="fa fa-circle-o"></i> 500 Error</a></li>
+            <li><a href="/ecommerce/res/admin/pages/examples/blank.html"><i class="fa fa-circle-o"></i> Blank Page</a></li>
+            <li><a href="/ecommerce/res/admin/pages/examples/pace.html"><i class="fa fa-circle-o"></i> Pace Page</a></li>
           </ul>
         </li>
         <li class="treeview">

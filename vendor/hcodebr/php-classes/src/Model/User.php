@@ -166,10 +166,19 @@ class User extends Model {
 
 				$dataRecovery = $results2[0];
 
-				$code = base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_128, User::SECRET, $dataRecovery["idrecovery"], MCRYPT_MODE_ECB));
-
-				$link = "http/www.hcodecommerce.com.br/admin/forgot/reset?code=$code";
-				#$link = "http://htdocs/ecommerce/admin/forgot/reset?code=$code";
+				$code = openssl_encrypt($dataRecovery['idrecovery'], 'AES-128-CBC', pack("a16", User::SECRET), 0, pack("a16", User::SECRET_IV));
+				
+				$code = base64_encode($code);
+				
+				if ($inadmin === true) {
+				
+					$link = "http://www.hcodecommerce.com.br/admin/forgot/reset?code=$code";
+				
+				} else {
+				
+					$link = "http://www.hcodecommerce.com.br/forgot/reset?code=$code";
+					
+				}	
 
 				$mailer = new Mailer($data["desemail"], $data["desperson"], "Redefinir Senha da Hcode Store", "forgot", 
 					array(
@@ -186,10 +195,12 @@ class User extends Model {
 
 	public static function validForgotDecrypt($code) {
 
-		$idrecovery = mcrypt_decrypt(MCRYPT_RIJNDAEL_128, User::SECRET, base64_decode($code), MCRYPT_MODE_ECB);
+		$code = base64_decode($code);
 
+		$idrecovery = openssl_decrypt($code, 'AES-128-CBC', pack("a16", User::SECRET), 0, pack("a16", User::SECRET_IV));
+		
 		$sql = new Sql();
-
+		
 		$results = $sql->select("
 			SELECT *
 			FROM tb_userspasswordsrecoveries a
@@ -201,17 +212,18 @@ class User extends Model {
 				a.dtrecovery IS NULL
 				AND
 				DATE_ADD(a.dtregister, INTERVAL 1 HOUR) >= NOW();
-			", array(
-				":idrecovery"=>$idrecovery
-			));
-
+		", array(
+			":idrecovery"=>$idrecovery
+		));
+		
 		if (count($results) === 0) {
-
-			throw new \Exception("Não foi possível recuperar a senha. ");
+			
+			throw new \Exception("Não foi possível recuperar a senha.");
 			
 		} else {
-
+			
 			return $results[0];
+
 		}
 	}
 

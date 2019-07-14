@@ -4,9 +4,8 @@ namespace Hcode\Model;
 
 use \Hcode\DB\Sql;
 use \Hcode\Model;
-use \Hcode\Model\User;
 
-class Cart extends Model {
+class Address extends Model {
 
 	const SESSION = "Cart";
 	const SESSION_ERROR = "CartError";

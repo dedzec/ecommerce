@@ -1,8 +1,9 @@
 <?php 
 
 use \Hcode\Page;
-use \Hcode\Model\Category;
 use \Hcode\Model\Product;
+use \Hcode\Model\Category;
+use \Hcode\Model\Cart;
 
 $app->get('/', function() {
 
@@ -57,6 +58,58 @@ $app->get("/products/:desurl", function($desurl) {
 		'product'=>$product->getValues(),
 		'categories'=>$product->getCategories()
 	]);
+});
+
+$app->get("/cart", function() {
+
+	$cart = Cart::getFromSession();
+
+	$page = new Page();
+
+	$page->setTpl("cart");
+});
+
+$app->get("/cart/:idproduct/add", function($idproduct) {
+
+	$product = new Product();
+
+	$product->get((int)$idproduct);
+
+	$cart = Cart::getFromSession();
+
+	$cart->addProduct($product);
+
+	header("Location: /ecommerce/cart");
+	exit;
+});
+
+
+$app->get("/cart/:idproduct/minus", function($idproduct) {
+
+	$product = new Product();
+
+	$product->get((int)$idproduct);
+
+	$cart = Cart::getFromSession();
+
+	$cart->removeProduct($product);
+
+	header("Location: /ecommerce/cart");
+	exit;
+});
+
+$app->get("/cart/:idproduct/remove", function($idproduct) {
+
+	$product = new Product();
+
+	$product->get((int)$idproduct);
+
+	$cart = Cart::getFromSession();
+
+	$cart->removeProduct($product, true);
+
+	header("Location: /ecommerce/cart");
+	exit;
 });
 
  ?>

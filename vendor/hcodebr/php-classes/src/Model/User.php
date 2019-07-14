@@ -180,7 +180,7 @@ class User extends Model {
 
 	}
 
-	public static function getForgot($email) {
+	public static function getForgot($email, $inadmin = true) {
 
 		$sql = new Sql();
 
@@ -214,9 +214,9 @@ class User extends Model {
 
 				$dataRecovery = $results2[0];
 
-				$code = openssl_encrypt($dataRecovery['idrecovery'], 'AES-128-CBC', pack("a16", User::SECRET), 0, pack("a16", User::SECRET_IV));
-				
-				$code = base64_encode($code);
+				$iv = random_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+             	$code = openssl_encrypt($dataRecovery['idrecovery'], 'aes-256-cbc', User::SECRET, 0, $iv);
+             	$result = base64_encode($iv.$code);
 				
 				if ($inadmin === true) {
 				
@@ -236,16 +236,17 @@ class User extends Model {
 
 				$mailer->send();
 
-				return $data;
+				return $link;
 			}
  		}
 	}
 
 	public static function validForgotDecrypt($code) {
 
-		$code = base64_decode($code);
-
-		$idrecovery = openssl_decrypt($code, 'AES-128-CBC', pack("a16", User::SECRET), 0, pack("a16", User::SECRET_IV));
+		$result = base64_decode($result);
+     	$code = mb_substr($result, openssl_cipher_iv_length('aes-256-cbc'), null, '8bit');
+     	$iv = mb_substr($result, 0, openssl_cipher_iv_length('aes-256-cbc'), '8bit');;
+     	$idrecovery = openssl_decrypt($code, 'aes-256-cbc', User::SECRET, 0, $iv);
 		
 		$sql = new Sql();
 		

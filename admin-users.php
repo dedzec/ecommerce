@@ -85,7 +85,7 @@ $app->post("/admin/users/:iduser", function($iduser) {
 
 	$user->setData($_POST);
 
-	$user->update();
+	$user->update(false);
 
 	header("Location: /ecommerce/admin/users");
 	exit;

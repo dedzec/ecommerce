@@ -217,7 +217,7 @@ $app->post("/register", function() {
 
 	}
 
-	if (User::checkLoginExist($_POST['email']) === true) {
+	if (User::checkLoginExists($_POST['email']) === true) {
 
 		User::setErrorRegister("Este endereço de e-mail já está sendo usado por outro usuário!");
 		header("Location: /ecommerce/login");
@@ -296,6 +296,70 @@ $app->post("/forgot/reset", function() {
 	$page = new Page();
 
     $page->setTpl("forgot-reset-success");
+});
+
+$app->get("/profile", function() {
+
+	User::verifyLogin(false);
+
+	$user = User::getFromSession();
+
+	$page = new Page();
+
+	$page->setTpl("profile", [
+		'user'=>$user->getValues(),
+		'profileMsg'=>User::getSuccess(),
+		'profileError'=>User::getError()
+	]);
+});
+
+$app->post("/profile", function() {
+
+	User::verifyLogin(false);
+
+	//Tratando erros - validações
+	if (!isset($_POST['desperson']) || $_POST['desperson'] === '') {
+
+		User::setError("Preencha seu nome!");
+		header("Location: /ecommerce/profile");
+		exit;
+	}
+
+	if (!isset($_POST['desemail']) || $_POST['desemail'] === '') {
+
+		User::setError("Preencha seu e-mail!");
+		header("Location: /ecommerce/profile");
+		exit;
+	}
+
+	$user = User::getFromSession();
+
+	if ($_POST['desemail'] !== $user->getdesemail()) {
+
+		if (User::checkLoginExists($_POST['desemail']) === true) {
+
+			User::setError("Este endereço de e-mail já está cadastrado!");
+			header("Location: /ecommerce/profile");
+			exit;
+		}
+	}
+
+	//Para impedir que o usuário mude o inadmin e senha, força pegar a informação do objeto $user
+	$_POST['iduser'] = $user->getiduser();
+	$_POST['inadmin'] = $user->getinadmin();
+	$_POST['despassword'] = $user->getdespassword();
+	$_POST['deslogin'] = $_POST['desemail'];
+
+	$user->setData($_POST);
+
+	$user->update(false);
+
+	$_SESSION[User::SESSION] = $user->getValues();
+
+	User::getSuccess("Dados alterados com sucesso!");
+
+	header("Location: /ecommerce/profile");
+	exit;
 });
 
  ?>

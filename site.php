@@ -649,9 +649,19 @@ $app->post("/profile/change-password", function() {
 
 	}
 
+	if ($_POST['new_pass'] !== $_POST['new_pass_confirm']) {
+
+		User::setError("A senha nova diferente da confirmação");
+		header("Location: /ecommerce/profile/change-password");
+		exit;
+		
+	}
+
 	$user->setdespassword($_POST['new_pass']);
 
 	$user->update();
+
+	$_SESSION[User::SESSION] = $user->getValues();
 
 	User::setSuccess("Senha alterada com Sucesso!");
 

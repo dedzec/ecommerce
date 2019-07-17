@@ -1,0 +1,52 @@
+<!-- Declaração do formulário -->  
+<form method="post"
+action="https://pagseguro.uol.com.br/v2/checkout/payment.html">  
+          
+        <!-- Campos obrigatórios -->  
+        <input name="receiverEmail" type="hidden" value="suporte@lojamodelo.com.br">  
+        <input name="currency" type="hidden" value="BRL">  
+  
+        <!-- Itens do pagamento (ao menos um item é obrigatório) -->  
+        {loop="$products"}
+        <input name="itemId{$counter+1}" type="hidden" value="{$value.idproduct}">  
+        <input name="itemDescription{$counter+1}" type="hidden" value="{$value.desproduct}">  
+        <input name="itemAmount{$counter+1}" type="hidden" value="{$value.vltotal}">  
+        <input name="itemQuantity{$counter+1}" type="hidden" value="{$value.nrqtd}">  
+        <input name="itemWeight{$counter+1}" type="hidden" value="{$value.vlweight*1000}"> 
+        {/loop}
+        <!-- Código de referência do pagamento no seu sistema (opcional) -->  
+        <input name="reference" type="hidden" value="{$order.idorder}">  
+          
+        <!-- Informações de frete (opcionais) -->  
+        <input name="shippingType" type="hidden" value="1">  
+        <input name="shippingAddressPostalCode" type="hidden">  
+        <input name="shippingAddressStreet" type="hidden">  
+        <input name="shippingAddressNumber" type="hidden">  
+        <input name="shippingAddressComplement" type="hidden">  
+        <input name="shippingAddressDistrict" type="hidden">  
+        <input name="shippingAddressCity" type="hidden">  
+        <input name="shippingAddressState" type="hidden">  
+        <input name="shippingAddressCountry" type="hidden">  
+  
+        <!-- Dados do comprador (opcionais) -->  
+        <input name="senderName" type="hidden" value="{$order.desperson}">  
+        <input name="senderAreaCode" type="hidden" value="{$phone.areaCode}">  
+        <input name="senderPhone" type="hidden" value="{$phone.number}">  
+        <input name="senderEmail" type="hidden" value="{$order.desemail}">  
+  
+        <!-- submit do form (obrigatório) -->  
+        <input alt="Pague com PagSeguro" name="submit"  type="image"  
+src="https://p.simg.uol.com.br/out/pagseguro/i/botoes/pagamentos/120x53-pagar.gif"/>  
+          
+</form> 
+
+<script src="text/javascript">
+        document.forms[0].submit();
+        document.getElementById('shippingAddressStreet').value = '{function="utf8_encode($order.desaddress)"}';
+        document.getElementById('shippingAddressNumber').value = '{function="utf8_encode($order.desnumber)"}';
+        document.getElementById('shippingAddressComplement').value = '{function="utf8_encode($order.descomplement)"}';
+        document.getElementById('shippingAddressCity').value = '{function="utf8_encode($order.descity)"}';
+        document.getElementById('shippingAddressState').value = '{function="utf8_encode($order.desstate)"}';
+        document.getElementById('shippingAddressCountry').value = '{function="utf8_encode($order.descountry)"}';
+        document.getElementById('senderName').value = '{function="utf8_encode($order.desperson)"}';
+</script>

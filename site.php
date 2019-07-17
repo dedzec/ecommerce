@@ -64,19 +64,6 @@ $app->get("/products/:desurl", function($desurl) {
 	]);
 });
 
-$app->get("/cart", function() {
-
-	$cart = Cart::getFromSession();
-
-	$page = new Page();
-
-	$page->setTpl("cart", [
-		'cart'=>$cart->getValues(),
-		'products'=>$cart->getProducts(),
-		'error'=>Cart::getMsgError()
-	]);
-});
-
 $app->get("/cart/:idproduct/add", function($idproduct) {
 
 	$product = new Product();
@@ -134,6 +121,19 @@ $app->post("/cart/freight", function() {
 
 	header("Location: /ecommerce/cart");
 	exit;
+});
+
+$app->get("/cart", function() {
+
+	$cart = Cart::getFromSession();
+
+	$page = new Page();
+
+	$page->setTpl("cart", [
+		'cart'=>$cart->getValues(),
+		'products'=>$cart->getProducts(),
+		'error'=>Cart::getMsgError()
+	]);
 });
 
 $app->get("/checkout", function() {
@@ -283,7 +283,7 @@ $app->post("/login", function() {
 
 	}
 
-	header("Location: /ecommerce/checkout");
+	header("Location: /ecommerce/");
 	exit;
 });
 
@@ -291,6 +291,10 @@ $app->get("/logout", function() {
 
 	User::logout();
 
+	Cart::removeFromSession();
+
+	session_regenerate_id();
+	
 	header("Location: /ecommerce/login");
 	exit;
 });
@@ -350,28 +354,13 @@ $app->post("/register", function() {
 	exit;
 });
 
-$app->get("/forgot", function() {
-
-	$page = new Page();
-
-    $page->setTpl("forgot");
-});
-
-$app->post("/forgot", function() {
-
-	$user = User::getForgot($_POST["email"], false);
-
-	header("Location: /ecommerce/forgot/sent");
-	exit;
-
-});
-
 $app->get("/forgot/sent", function() {
 
 	$page = new Page();
 
     $page->setTpl("forgot-sent");
 });
+
 
 $app->get("/forgot/reset", function() {
 
@@ -402,6 +391,136 @@ $app->post("/forgot/reset", function() {
 	$page = new Page();
 
     $page->setTpl("forgot-reset-success");
+});
+
+$app->get("/forgot", function() {
+
+	$page = new Page();
+
+    $page->setTpl("forgot");
+});
+
+$app->post("/forgot", function() {
+
+	$user = User::getForgot($_POST["email"], false);
+
+	header("Location: /ecommerce/forgot/sent");
+	exit;
+
+});
+
+$app->get("/profile/orders/:idorder", function($idorder) {
+
+	User::verifyLogin(false);
+
+	$order = new Order();
+
+	$order->get((int)$idorder);
+
+	$cart = new Cart();
+
+	$cart->get((int)$order->getidcart());
+
+	$cart->getCalculateTotal();
+
+	$page = new Page();
+
+	$page->setTpl("profile-orders-detail", [
+		'order'=>$order->getValues(),
+		'cart'=>$cart->getValues(),
+		'products'=>$cart->getProducts()
+	]);
+});
+
+$app->get("/profile/change-password", function() {
+
+	User::verifyLogin(false);
+
+	$page = new Page();
+
+	$page->setTpl("profile-change-password", [
+		'changePassError'=>User::getError(),
+		'changePassSuccess'=>User::getSuccess()
+	]);
+});
+
+$app->post("/profile/change-password", function() {
+
+	User::verifyLogin(false);
+
+	if (!isset($_POST['current_pass']) || $_POST['current_pass'] === '') {
+
+		User::setError("Digite a senha atual!");
+		header("Location: /ecommerce/profile/change-password");
+		exit;
+
+	}
+
+	if (!isset($_POST['new_pass']) || $_POST['new_pass'] === '') {
+
+		User::setError("Digite a nova senha!");
+		header("Location: /ecommerce/profile/change-password");
+		exit;
+
+	}
+
+	if (!isset($_POST['new_pass_confirm']) || $_POST['new_pass_confirm'] === '') {
+
+		User::setError("Confirme a nova senha!");
+		header("Location: /ecommerce/profile/change-password");
+		exit;
+
+	}
+
+	if ($_POST['current_pass'] === $_POST['new_pass']) {
+
+		User::setError("Sua nova senha deve ser diferente da atual!");
+		header("Location: /ecommerce/profile/change-password");
+		exit;
+
+	}
+
+	$user = User::getFromSession();
+
+	if (!password_verify($_POST['current_pass'], $user->getdespassword())) {
+
+		User::setError("A senha está inválida!");
+		header("Location: /ecommerce/profile/change-password");
+		exit;
+
+	}
+
+	if ($_POST['new_pass'] !== $_POST['new_pass_confirm']) {
+
+		User::setError("A senha nova diferente da confirmação");
+		header("Location: /ecommerce/profile/change-password");
+		exit;
+		
+	}
+
+	$user->setdespassword($_POST['new_pass']);
+
+	$user->update();
+
+	$_SESSION[User::SESSION] = $user->getValues();
+
+	User::setSuccess("Senha alterada com Sucesso!");
+
+	header("Location: /ecommerce/profile/change-password");
+	exit;
+});
+
+$app->get("/profile/orders", function() {
+
+	User::verifyLogin(false);
+
+	$user = User::getFromSession();
+
+	$page = new Page();
+
+	$page->setTpl("profile-orders", [
+		'orders'=>$user->getOrders()
+	]);
 });
 
 $app->get("/profile", function() {
@@ -553,120 +672,6 @@ $app->get("/boleto/:idorder", function($idorder) {
 	require_once($path . "funcoes_itau.php");
 	require_once($path . "layout_itau.php");
 	
-});
-
-$app->get("/profile/orders", function() {
-
-	User::verifyLogin(false);
-
-	$user = User::getFromSession();
-
-	$page = new Page();
-
-	$page->setTpl("profile-orders", [
-		'orders'=>$user->getOrders()
-	]);
-});
-
-$app->get("/profile/orders/:idorder", function($idorder) {
-
-	User::verifyLogin(false);
-
-	$order = new Order();
-
-	$order->get((int)$idorder);
-
-	$cart = new Cart();
-
-	$cart->get((int)$order->getidcart());
-
-	$cart->getCalculateTotal();
-
-	$page = new Page();
-
-	$page->setTpl("profile-orders-detail", [
-		'order'=>$order->getValues(),
-		'cart'=>$cart->getValues(),
-		'products'=>$cart->getProducts()
-	]);
-});
-
-$app->get("/profile/change-password", function() {
-
-	User::verifyLogin(false);
-
-	$page = new Page();
-
-	$page->setTpl("profile-change-password", [
-		'changePassError'=>User::getError(),
-		'changePassSuccess'=>User::getSuccess()
-	]);
-});
-
-$app->post("/profile/change-password", function() {
-
-	User::verifyLogin(false);
-
-	if (!isset($_POST['current_pass']) || $_POST['current_pass'] === '') {
-
-		User::setError("Digite a senha atual!");
-		header("Location: /ecommerce/profile/change-password");
-		exit;
-
-	}
-
-	if (!isset($_POST['new_pass']) || $_POST['new_pass'] === '') {
-
-		User::setError("Digite a nova senha!");
-		header("Location: /ecommerce/profile/change-password");
-		exit;
-
-	}
-
-	if (!isset($_POST['new_pass_confirm']) || $_POST['new_pass_confirm'] === '') {
-
-		User::setError("Confirme a nova senha!");
-		header("Location: /ecommerce/profile/change-password");
-		exit;
-
-	}
-
-	if ($_POST['current_pass'] === $_POST['new_pass']) {
-
-		User::setError("Sua nova senha deve ser diferente da atual!");
-		header("Location: /ecommerce/profile/change-password");
-		exit;
-
-	}
-
-	$user = User::getFromSession();
-
-	if (!password_verify($_POST['current_pass'], $user->getdespassword())) {
-
-		User::setError("A senha está inválida!");
-		header("Location: /ecommerce/profile/change-password");
-		exit;
-
-	}
-
-	if ($_POST['new_pass'] !== $_POST['new_pass_confirm']) {
-
-		User::setError("A senha nova diferente da confirmação");
-		header("Location: /ecommerce/profile/change-password");
-		exit;
-		
-	}
-
-	$user->setdespassword($_POST['new_pass']);
-
-	$user->update();
-
-	$_SESSION[User::SESSION] = $user->getValues();
-
-	User::setSuccess("Senha alterada com Sucesso!");
-
-	header("Location: /ecommerce/profile/change-password");
-	exit;
 });
 
  ?>
